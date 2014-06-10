@@ -5,7 +5,7 @@
     <version>och3.1.1</version>
     <packaging>jar</packaging>
     
-    
+    <!-- properties-->
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hadoop.version>2.3.0-cdh5.0.0</hadoop.version>
