@@ -18,24 +18,22 @@
 
 package org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience.Private;
 import org.apache.hadoop.classification.InterfaceStability.Unstable;
 import org.apache.hadoop.security.UserGroupInformation;
-import org.apache.hadoop.yarn.api.records.ApplicationAttemptId;
-import org.apache.hadoop.yarn.api.records.Priority;
-import org.apache.hadoop.yarn.api.records.QueueACL;
-import org.apache.hadoop.yarn.api.records.QueueInfo;
-import org.apache.hadoop.yarn.api.records.QueueState;
-import org.apache.hadoop.yarn.api.records.Resource;
+import org.apache.hadoop.yarn.api.records.*;
 import org.apache.hadoop.yarn.factories.RecordFactory;
 import org.apache.hadoop.yarn.factory.providers.RecordFactoryProvider;
 import org.apache.hadoop.yarn.server.resourcemanager.resource.ResourceWeights;
 import org.apache.hadoop.yarn.server.resourcemanager.scheduler.Queue;
 import org.apache.hadoop.yarn.util.resource.Resources;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 @Private
 @Unstable
@@ -49,6 +47,10 @@ public abstract class FSQueue extends Schedulable implements Queue {
       RecordFactoryProvider.getRecordFactory(null);
   
   protected SchedulingPolicy policy = SchedulingPolicy.DEFAULT_POLICY;
+
+  private HashSet<String> accessNodesList = null;
+
+  public static final Log LOG = LogFactory.getLog(FSQueue.class.getName());
 
   public FSQueue(String name, FairScheduler scheduler, FSParentQueue parent) {
     this.name = name;
@@ -180,11 +182,30 @@ public abstract class FSQueue extends Schedulable implements Queue {
    * @return true if check passes (can assign) or false otherwise
    */
   protected boolean assignContainerPreCheck(FSSchedulerNode node) {
-    if (!Resources.fitsInWithoutEqual(getResourceUsage(),
-        scheduler.getAllocationConfiguration().getMaxResources(getName()))
+    if (!Resources.fitsIn(getResourceUsage(),
+            scheduler.getAllocationConfiguration().getMaxResources(getName()))
         || node.getReservedContainer() != null) {
       return false;
     }
     return true;
+  }
+  
+  public void setAccessNodes(HashSet<String> accessNode) {
+      accessNodesList = accessNode;
+  }
+
+  public boolean canAccessNode(String hostname) {
+      if (accessNodesList != null) {
+         if(accessNodesList.contains(hostname)) {
+           return true;
+         } else {
+             if(LOG.isDebugEnabled()) {
+                 LOG.debug("Block resource request for host[" + hostname + "] in Queue[" + this.getQueueName() + "]");
+             }
+           return false;
+         }
+      } else {
+         return true;
+      }
   }
 }

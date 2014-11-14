@@ -2,40 +2,25 @@
   <modelVersion>4.0.0</modelVersion>
      <groupId>com.ailk.oci.hadoop</groupId>
     <artifactId>hadoop-extension</artifactId>
-    <version>och3.1.1</version>
+    <version>och3.3.0</version>
     <packaging>jar</packaging>
     
     
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>2.3.0-cdh5.0.0</hadoop.version>
+        <hadoop.version>2.3.0-cdh5.1.3</hadoop.version>
  </properties>
   <dependencies>
-     <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-            <version>${hadoop.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-hdfs</artifactId>
-            <version>${hadoop.version}</version>
-        </dependency>
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-  			<artifactId>hadoop-yarn-common</artifactId>
-  			<version>${hadoop.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-  			<artifactId>hadoop-yarn-server-resourcemanager</artifactId>
-  			<version>${hadoop.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-  			<artifactId>hadoop-yarn-server-tests</artifactId>
-  			<version>${hadoop.version}</version>
-		</dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-yarn-server-resourcemanager</artifactId>
+      <version>${hadoop.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>${hadoop.version}</version>
+    </dependency>
 		<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
