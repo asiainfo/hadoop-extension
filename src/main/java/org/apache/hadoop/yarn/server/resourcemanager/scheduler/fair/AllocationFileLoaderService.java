@@ -432,10 +432,13 @@ public class AllocationFileLoaderService extends AbstractService {
         String text = ((Text)field.getFirstChild()).getData();
         HashSet<String> nodeSet = new HashSet<String>();
         for(String rg : text.split(",")) {
-            for(String t : resourceGroups.get(rg)) {
-                LOG.info("Read from config queue=[" + queueName + "] node=[" + t + "]");
-            }
-            nodeSet.addAll(resourceGroups.get(rg));
+          if(!resourceGroups.containsKey(rg)) {
+            continue;
+          }
+          for(String t : resourceGroups.get(rg)) {
+            LOG.info("Read from config queue=[" + queueName + "] node=[" + t + "]");
+          }
+          nodeSet.addAll(resourceGroups.get(rg));
         }
         queueToResource.put(queueName, nodeSet);
       } else if ("queue".endsWith(field.getTagName()) || 
