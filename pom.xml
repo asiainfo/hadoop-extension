@@ -2,13 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
      <groupId>com.ailk.oci.hadoop</groupId>
     <artifactId>hadoop-extension</artifactId>
-    <version>och3.1.1</version>
+    <version>och4.0.1</version>
     <packaging>jar</packaging>
     
     <!-- properties-->
   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <hadoop.version>2.3.0-cdh5.0.0</hadoop.version>
+        <hadoop.version>2.5.0-cdh5.2.1</hadoop.version>
  </properties>
   <dependencies>
      <dependency>
